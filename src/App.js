@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { App as  AntdApp} from 'antd';
 import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
 import { Layout } from 'antd';
-import { BrowserRouter, useNavigate } from 'react-router-dom';
+import { BrowserRouter, useLocation, useNavigate } from 'react-router-dom';
 import Headers from './components/Headers';
 import Contents from './components/Contents';
 
@@ -13,9 +13,10 @@ const { Content, Footer, Sider } = Layout;
   //   label: `${key}`,
   // }));
  
+
 const App = () => {
   
-  const [menuType, setMenuType] = useState('Calendar');
+  const [menuType, setMenuType] = useState('');
  
   const { message, modal, notification } = AntdApp.useApp();
 
@@ -46,6 +47,7 @@ const App = () => {
   return ( 
     <Layout>
         <BrowserRouter>
+        <SideEffectComp menuType={menuType} setMenuType={setMenuType}/>
         <Headers menuType={menuType} setMenuType={setMenuType}/>
         <Contents menuType={menuType} setMenuType={setMenuType}/>
         <Footer style={{ textAlign: 'center' }}>
@@ -55,5 +57,15 @@ const App = () => {
       </Layout> 
   );
 };
+
+const SideEffectComp = (props) =>{
+  const location = useLocation();
+
+  useEffect(() => {
+    props.setMenuType(location.pathname.replace("/",""))
+  }, [location]);
+
+  return null;   
+}  
 
 export default App;
