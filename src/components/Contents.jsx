@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Breadcrumb, Layout, theme } from 'antd';
 import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import CalendarApp from '../calendar/CalendarApp';
+import CalendarApp from '../pages/CalendarApp';
 import TodoApp from '../todo/TodoApp';
 import Login from '../auth/Login';
 import Sidebar from './Sidebar';
+import Register from '../auth/Register';
 
 export default function Contents(props){
     
@@ -39,6 +40,8 @@ export default function Contents(props){
                 <Route path='/Login' element={ <Login />}/>
                 <Route path='/Calendar' element={ <CalendarApp />}/>
                 <Route path='/Todo' element={ < TodoApp/>} />
+                <Route path='/Register' element={ <Register />}/>
+
             </Routes>
             </Content>
 

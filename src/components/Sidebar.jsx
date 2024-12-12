@@ -17,18 +17,18 @@ export default function Sidebar(props) {
     } = theme.useToken();
 
     const sideNavInfo = [
-        {   name: "내 정보",
+        {   name: "내 캘린더",
             icon: UserOutlined,
             detail : `[내캘린더(private는 걍 캘린더하나로하고그안에서(모두공유로할지, 친구 공유로할지)), 
             환경설정(캘린더), 친구 관리] 배열로 내 캘린더`
         },
-        {   name: "친구 캘린더",
-            icon: UsergroupAddOutlined,
-            detail : "[]"
-        },
         {   name: "팀 캘린더",
             icon: LaptopOutlined,
             detail : "[실시간 캘린더 및 일정 관리 (일정을 칼같이 관리함)]"
+        },
+        {   name: "환경설정",
+            icon: UsergroupAddOutlined,
+            detail : "[]"
         },
 
 
@@ -57,13 +57,13 @@ export default function Sidebar(props) {
     return(
         <>
             <Sider style={{ background: colorBgContainer }} width={200}>
-                {/* <Menu
+                <Menu
                 mode="inline"
                 defaultSelectedKeys={['1']}
                 defaultOpenKeys={['sub1']}
                 style={{ height: '100%' }}
                 items={items2}
-                /> */}
+                />
             </Sider>
         </>
     )

@@ -1,141 +1,60 @@
 import React, { useState } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space } from 'antd';
+import { Typography, Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space } from 'antd';
+import Login from './Login';
+import { useNavigate } from 'react-router-dom';
 
-const { Option } = Select;
 
-export default function Register({ showDrawer, onClose, open, setOpen}) {
-  // const [open, setOpen] = useState(false);
+export default function Register() {
+  
+  const navigate = useNavigate();
+  const { Title } = Typography;
+  
+  const onFinish = (values) => {
+    console.log('Success:', values);
+  };
 
-  // const showDrawer = () => {
-  //   setOpen(true);
-  // };
+  return(<>
+    {/* <h2 style={ }>login</h2> */}
+    <Form
+        name="basic"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 17 }}
+        style={{ maxWidth: 600 }}
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        // onFinishFailed={onFinishFailed}
+        autoComplete="off"
+    >
+        <Form.Item>
+            <Title level={3} style={{ textAlign: 'right' }}>
+            회원가입
+            </Title>
+        </Form.Item>
 
-  // const onClose = () => {
-  //   setOpen(false);
-  // };
+        <Form.Item      
+            label="Username"
+            name="username"
+            rules={[{ required: true, message: 'Please input your username!' }]}
+        >
+        <Input />
+        </Form.Item>
 
-  return (
-    <>
-      {/* <Button type="primary" onClick={showDrawer} icon={<PlusOutlined />} style={{ marginLeft: '10px' }}>
-        New account
-      </Button> */}
-      <Drawer
-        title="Create a new account"
-        width={1000}
-        onClose={onClose}
-        open={open}
-        styles={{
-          body: {
-            paddingBottom: 80,
-          },
-        }}
-        extra={
-          <Space>
-            <Button onClick={onClose}>Cancel</Button>
-            <Button onClick={onClose} type="primary">
-              Submit
+        <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+        >
+        <Input.Password />
+        </Form.Item>
+
+        <Form.Item label={null} style={{ display: 'flex', justifyContent: 'center', marginLeft: '16%'}}>
+            <Button type="primary" htmlType="submit" >
+                회원가입
             </Button>
-          </Space>
-        }
-      >
-        <Form layout="vertical" hideRequiredMark>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                name="name"
-                label="Name"
-                rules={[{ required: true, message: 'Please enter user name' }]}
-              >
-                <Input placeholder="Please enter user name" />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                name="url"
-                label="Url"
-                rules={[{ required: true, message: 'Please enter url' }]}
-              >
-                <Input
-                  style={{ width: '100%' }}
-                  addonBefore="http://"
-                  addonAfter=".com"
-                  placeholder="Please enter url"
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                name="owner"
-                label="Owner"
-                rules={[{ required: true, message: 'Please select an owner' }]}
-              >
-                <Select placeholder="Please select an owner">
-                  <Option value="xiao">Xiaoxiao Fu</Option>
-                  <Option value="mao">Maomao Zhou</Option>
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                name="type"
-                label="Type"
-                rules={[{ required: true, message: 'Please choose the type' }]}
-              >
-                <Select placeholder="Please choose the type">
-                  <Option value="private">Private</Option>
-                  <Option value="public">Public</Option>
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                name="approver"
-                label="Approver"
-                rules={[{ required: true, message: 'Please choose the approver' }]}
-              >
-                <Select placeholder="Please choose the approver">
-                  <Option value="jack">Jack Ma</Option>
-                  <Option value="tom">Tom Liu</Option>
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                name="dateTime"
-                label="DateTime"
-                rules={[{ required: true, message: 'Please choose the dateTime' }]}
-              >
-                <DatePicker.RangePicker
-                  style={{ width: '100%' }}
-                  getPopupContainer={(trigger) => trigger.parentElement }
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={24}>
-              <Form.Item
-                name="description"
-                label="Description"
-                rules={[
-                  {
-                    required: true,
-                    message: 'please enter url description',
-                  },
-                ]}
-              >
-                <Input.TextArea rows={4} placeholder="please enter url description" />
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
-      </Drawer>
+
+        </Form.Item>
+    </Form>
     </>
-  );
+    )
 };
  

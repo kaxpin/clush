@@ -3,6 +3,7 @@ import './index.css';
 // import type { BadgeProps, CalendarProps } from 'antd';
 import { Badge, Calendar } from 'antd';
 import { useEffect, useState } from 'react';
+import { configConsumerProps } from 'antd/es/config-provider';
 // import type { Dayjs } from 'dayjs';
 
 const getListData = (value) => {
@@ -82,7 +83,9 @@ export default function CalendarApp() {
         //     }
         // }
         // console.log("current:" + current)
+
         if (info.type === 'date') return dateCellRender(current);
+        
         if (info.type === 'month') return monthCellRender(current);
         return info.originNode;
       };
@@ -96,5 +99,14 @@ export default function CalendarApp() {
       }, [location])
     
     
-      return <Calendar cellRender={cellRender} />;
+      return <Calendar cellRender={cellRender} 
+              // onPanelChange={(item)=>{
+              //     console.log(item)
+              // }}
+              onSelect={(item, type)=>{
+                if(type.source === "date") {
+                  console.log(item)
+                }
+              }}
+              />
 }
