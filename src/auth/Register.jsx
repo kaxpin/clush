@@ -2,17 +2,33 @@ import React, { useState } from 'react';
 import { Typography, Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space } from 'antd';
 import Login from './Login';
 import { useNavigate } from 'react-router-dom';
+import { checkDupId, createAccount } from './authApiService';
 
 
 export default function Register() {
   
-  const navigate = useNavigate();
-  const { Title } = Typography;
+  const navigate = useNavigate()
+  const { Title } = Typography
   
   const onFinish = (values) => {
-    console.log('Success:', values);
-  };
-
+    checkDupId(values.userId)
+        .then((res) => {
+            if(!res.data.data){
+                console.log("eww")
+                alert("아이디가 중복됩니다")
+                return
+            }
+            createAccount(values)
+                .then((res) => {
+                    if(res.status == 200){
+                        alert("가입이 완료되었습니다.");
+                        navigate('/')
+                    }
+            });
+     
+        })
+};
+  
   return(<>
     {/* <h2 style={ }>login</h2> */}
     <Form
@@ -33,15 +49,24 @@ export default function Register() {
 
         <Form.Item      
             label="Username"
-            name="username"
+            name="userName"
             rules={[{ required: true, message: 'Please input your username!' }]}
+            
+        >
+        <Input />
+        </Form.Item>
+
+        <Form.Item
+            label="Id"
+            name="userId"
+            rules={[{ required: true, message: 'Please input your Id!' }]}
         >
         <Input />
         </Form.Item>
 
         <Form.Item
             label="Password"
-            name="password"
+            name="userPw"
             rules={[{ required: true, message: 'Please input your password!' }]}
         >
         <Input.Password />

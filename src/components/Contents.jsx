@@ -6,9 +6,12 @@ import TodoApp from '../todo/TodoApp';
 import Login from '../auth/Login';
 import Sidebar from './Sidebar';
 import Register from '../auth/Register';
+import useAuthStore from '../auth/auth';
 
 export default function Contents(props){
     
+    const { isAuthenticated, login, logout} =  useAuthStore();
+
     const { Content, Sider } = Layout;
 
     const location = useLocation();
@@ -32,12 +35,11 @@ export default function Contents(props){
         <Layout
         style={{ padding: '24px 0', background: colorBgContainer, borderRadius: borderRadiusLG }}
         >
-            <Sidebar />
-        
+            {isAuthenticated && <Sidebar />}
             <Content style={{ padding: '0 24px', minHeight: 280 }}>
             <Routes>
                 <Route path='/' element={ <CalendarApp />}/>
-                <Route path='/Login' element={ <Login />}/>
+                <Route path='/Login' element={ <Login /> }/>
                 <Route path='/Calendar' element={ <CalendarApp />}/>
                 <Route path='/Todo' element={ < TodoApp/>} />
                 <Route path='/Register' element={ <Register />}/>

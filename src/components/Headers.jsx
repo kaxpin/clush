@@ -2,10 +2,13 @@ import { Menu } from "antd";
 import { Header } from "antd/es/layout/layout";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import useAuthStore from "../auth/auth";
 
 export default Headers = (props)=>{
 
-  const items1 = ['Calendar', 'Todo', 'Login'].map((key) => ({
+  const { isAuthenticated, login, logout } =  useAuthStore();
+
+  const items1 = ['Calendar', 'Todo', (!isAuthenticated ? 'Login' : 'Logout')].map((key) => ({
     key,
     label: `${key}`,
   }))
@@ -13,16 +16,21 @@ export default Headers = (props)=>{
 
   const handleClickMenu = (param)=>{
 
-    if(param === "Login"){
+    if(!isAuthenticated){
+      navigate('/Login')
+      return
+    }
+
+    if(param === "Logout"){
       props.setMenuType(param)
-      navigate('/' + param)
-      return;
+      logout()
+      navigate('/Login')
+      return
     }
     
     props.setMenuType(()=>{ navigate('/' + param)
       return param
-    });
-
+    })
   }
 
   useEffect(()=>{

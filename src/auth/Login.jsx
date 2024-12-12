@@ -1,15 +1,30 @@
 import React, { useState } from 'react';
 import { Typography, Button, Checkbox, Form, Input } from 'antd';
-import Register from './Register';
 import { useNavigate } from 'react-router-dom';
+import { onLogin } from './authApiService';
+import useAuthStore from './auth';
 
 export default function Login() {
     
-    const { Title } = Typography;
-    const navigate = useNavigate();
+    const { isAuthenticated, login, logout} =  useAuthStore();
     
-    const onFinish = (values) => {
-    console.log('Success:', values);
+    const navigate = useNavigate();
+    const { Title } = Typography;
+    
+    const clickLogin = (values) => {
+
+        onLogin(values)
+            .then((res) => {
+                console.log(res)
+                if(!res.data.data){
+                    alert("아이디와 비밀번호를 확인해 주세요.")
+                    return
+                }
+
+                login()
+                navigate('/Calendar')
+        })
+
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -18,14 +33,13 @@ export default function Login() {
     const [open, setOpen] = useState(false);
  
     return(<>
-        {/* <h2 style={ }>login</h2> */}
         <Form
             name="basic"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 17 }}
             style={{ maxWidth: 600 }}
             initialValues={{ remember: true }}
-            onFinish={onFinish}
+            onFinish={clickLogin}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
         >
@@ -37,16 +51,16 @@ export default function Login() {
 
             
             <Form.Item      
-                label="Username"
-                name="username"
-                rules={[{ required: true, message: 'Please input your username!' }]}
+                label="Id"
+                name="userId"
+                rules={[{ required: true, message: 'Please input your Id!' }]}
             >
             <Input />
             </Form.Item>
 
             <Form.Item
                 label="Password"
-                name="password"
+                name="userPw"
                 rules={[{ required: true, message: 'Please input your password!' }]}
             >
             <Input.Password />
