@@ -1,112 +1,156 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './index.css';
-// import type { BadgeProps, CalendarProps } from 'antd';
 import { Badge, Calendar } from 'antd';
 import { useEffect, useState } from 'react';
-import { configConsumerProps } from 'antd/es/config-provider';
-// import type { Dayjs } from 'dayjs';
+import Calendarpop from './components/CalendarAddpop';
+import useAuthStore from '../auth/auth';
+import { selectCalendarInfo } from '../api/CalendarApiService';
+import usePopupStore from '../store/popupStore';
 
-const getListData = (value) => {
-    let listData = []; // Specify the type of listData
-    switch (value.date()) {
-      case 8:
-        listData = [
-          { type: 'warning', content: 'This is warning event.' },
-          { type: 'success', content: 'This is usual event.' },
-        ];
-        // console.log("확인" +  JSON.stringify(month())
-        break;
-      case 10:
-        listData = [
-          { type: 'warning', content: 'This is warning event.' },
-          { type: 'success', content: 'This is usual event.' },
-          { type: 'error', content: 'This is error event.' },
-        ];
-        break;
-      case 15:
-        listData = [
-          { type: 'warning', content: 'This is warning event' },
-          { type: 'success', content: 'This is very long usual event......' },
-          { type: 'error', content: 'This is error event 1.' },
-          { type: 'error', content: 'This is error event 2.' },
-          { type: 'error', content: 'This is error event 3.' },
-          { type: 'error', content: 'This is error event 4.' },
-        ];
-        break;
-      default:
-    }
-    return listData || [];
-  };
-  
-const getMonthData = (value) => {
-  if (value.month() === 8) {
-    return 1394;
-  }
-};
 
 export default function CalendarApp() {
-    const monthCellRender = (value) => {
-        const num = getMonthData(value);
-        return num ? (
-          <div className="notes-month">
-            <section>{num}</section>
-            <span>Backlog number</span>
-          </div>
-        ) : null;
-      };
-    
-      const dateCellRender = (value) => {
-        const listData = getListData(value);
-        return (
-          <ul className="events">
-            {listData.map((item) => (
-              <li key={item.content}>
-                <Badge status={item.type } text={item.content} />
-              </li>
-            ))}
-          </ul>
-        );
-      };
-    
-      const cellRender = (current, info) => {
-        // console.log(info)
-        // console.log("-----------------------------------")
-        // for(let i in info){
-        //     if(i =="locale"){
-        //         console.log("info["+i+"]" )
-        //         for(let j in info[i]){
-        //             console.log(j)
-        //         }
-        //     }else{
-        //         console.log("info["+i+"]" + info[i])
 
-        //     }
-        // }
-        // console.log("current:" + current)
+  const { isAuthenticated, userId, login, logout } = useAuthStore();
+  const navigate = useNavigate();
+  const [rawData, setRawData] = useState([]);
+  const { open, setOpen } = usePopupStore()
 
-        if (info.type === 'date') return dateCellRender(current);
-        
-        if (info.type === 'month') return monthCellRender(current);
-        return info.originNode;
-      };
+  let pickedBanner = "month";
+  let targetYear = new Date().getFullYear();
+  let targetMonth = new Date().getMonth();
 
-      const location = useLocation(); // 현재 URL 정보 가져오기
-      
-      useEffect(()=>{
-        // setCurPath(location.pathname)
-        // console.log("상태 변경 감지");
-        // console.log(location.pathname);
-      }, [location])
-    
-    
-      return <Calendar cellRender={cellRender} 
-              // onPanelChange={(item)=>{
-              //     console.log(item)
-              // }}
-              onSelect={(item, type)=>{
-                if(type.source === "date") {
-                  console.log(item)
-                }
-              }}
-              />
+  useEffect(() => {
+
+    if (!isAuthenticated) {
+      navigate('/Login')
+      return;
+    }
+
+    selectCalendarInfo(pickedBanner, targetYear, targetMonth + 1, userId)
+      .then((res) => {
+        let data = [...res.data.data].map((item) => {
+          if (item.startDate) {
+            item.startDate = new Date(item.startDate);
+          }
+          if (item.endDate) {
+            item.endDate = new Date(item.endDate);
+          }
+          return item;
+        });
+        setRawData(data);
+      }
+      )
+  }, [])
+
+  const formatDate = (date) => {
+    date = new Date(date)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+
+    return parseInt(`${year}${month}${day}`)
+  };
+
+  const isDateInRange = (targetDate, startDate, endDate) => {
+    return targetDate >= startDate && targetDate <= endDate;
+  };
+  const getListData = (value, rawData) => {
+
+    const valueStr = formatDate(value)
+    let listData = [];
+
+    rawData.map((item, index) => {
+
+      const startDateStr = formatDate(item.startDate);
+      const endDateStr = formatDate(item.endDate);
+
+      if (isDateInRange(valueStr, startDateStr, endDateStr)) {
+        listData.push({ type: item.indexColor, content: item.title })
+      }
+    })
+
+    return listData || [];
+  };
+
+  const getMonthData = (value) => {
+    if (value.month() === 8) {
+      return 1394;
+    }
+  };
+
+  const monthCellRender = (value) => {
+    const num = getMonthData(value);
+    return num ? (
+      <div className="notes-month">
+        <section>{num}</section>
+        <span>Backlog number</span>
+      </div>
+    ) : null;
+  };
+
+  const dateCellRender = (value) => {
+    const listData = getListData(value, rawData);
+    return (
+      <ul className="events">
+        {listData.map((item) => (
+          <li key={item.content}>
+            <Badge status={item.type} text={item.content} />
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  const cellRender = (current, info) => {
+
+    if (info.type === 'date') {
+      pickedBanner = "month";
+      return dateCellRender(current)
+    };
+
+    if (info.type === 'month') {
+      pickedBanner = "year";
+      return monthCellRender(current);
+    }
+    return info.originNode;
+  };
+
+  return <><Calendar cellRender={cellRender}
+
+    onSelect={(item, type) => {
+
+      targetYear = item.$y;
+      targetMonth = item.$M;
+
+      if (pickedBanner === "year") {
+
+        if (type.source === "month") {
+          setOpen(true);
+        }
+
+        if (type.source === "year") {
+        }
+
+      } else {
+        if (type.source === "date") {
+          setOpen(true);
+        } else {
+
+          if (type.source === "month") {
+          }
+
+          if (type.source === "year") {
+          }
+        }
+      }
+
+    }}
+
+  />
+    <Calendarpop type={pickedBanner}
+      onClose={() => { setOpen(false) }}
+      open={open}
+      setOpen={setOpen}
+    />
+  </>
 }

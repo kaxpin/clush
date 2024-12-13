@@ -5,34 +5,32 @@ import { onLogin } from './authApiService';
 import useAuthStore from './auth';
 
 export default function Login() {
-    
-    const { isAuthenticated, login, logout} =  useAuthStore();
-    
+
+    const { isAuthenticated, login, logout } = useAuthStore();
+
     const navigate = useNavigate();
     const { Title } = Typography;
-    
+
     const clickLogin = (values) => {
 
         onLogin(values)
             .then((res) => {
                 console.log(res)
-                if(!res.data.data){
+                if (!res.data.data) {
                     alert("아이디와 비밀번호를 확인해 주세요.")
                     return
                 }
 
-                login()
+                login(values.userId)
                 navigate('/Calendar')
-        })
+            })
 
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 
-    const [open, setOpen] = useState(false);
- 
-    return(<>
+    return (<>
         <Form
             name="basic"
             labelCol={{ span: 8 }}
@@ -45,17 +43,17 @@ export default function Login() {
         >
             <Form.Item>
                 <Title level={3} style={{ textAlign: 'right' }}>
-                로그인
+                    로그인
                 </Title>
             </Form.Item>
 
-            
-            <Form.Item      
+
+            <Form.Item
                 label="Id"
                 name="userId"
                 rules={[{ required: true, message: 'Please input your Id!' }]}
             >
-            <Input />
+                <Input />
             </Form.Item>
 
             <Form.Item
@@ -63,27 +61,23 @@ export default function Login() {
                 name="userPw"
                 rules={[{ required: true, message: 'Please input your password!' }]}
             >
-            <Input.Password />
+                <Input.Password />
             </Form.Item>
 
-            <Form.Item label={null}  style={{ marginTop: '50px' }}>
+            <Form.Item label={null} style={{ marginTop: '50px' }}>
                 <Button type="primary" htmlType="submit">
                     로그인
                 </Button>
-                <Button type="default" htmlType="button" style={{ marginLeft: '10px' }} 
-                onClick={ ()=>{ navigate('/Register') }} >
+                <Button type="default" htmlType="button" style={{ marginLeft: '10px' }}
+                    onClick={() => { navigate('/Register') }} >
                     회원이 아니신가요? 회원가입
                 </Button>
-                {/* <Register 
-                //  onClose={ onClose } 
-                 open={open} 
-                 setOpen={ setOpen }
-                 /> */}
+
 
 
 
             </Form.Item>
         </Form>
-        </>
-        )
+    </>
+    )
 }

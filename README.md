@@ -1,70 +1,33 @@
-# Getting Started with Create React App
+# 과제 frontend (미완성) 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+과제 backend(미완성) -> (https://github.com/kaxpin/clush_backend)
 
-In the project directory, you can run:
+##
+안녕하세요! 개인 사정으로 과제의 요구조건을 수행하지 못했지만, 성장의 거름이 되고자 제출하게 되었습니다. 
 
-### `npm start`
+### 1. 자신이 개발한 앱에 대한 설명  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+제가 개발한 앱은 캘린더 앱입니다. (결과물의 완성 계획은, 캘린더와 더불어 todo그리고 그룹끼리 공유하는 기능을 생각 했습니다.)
+제가 기능적인 개발을 완성한 부분은
+일정조회, 등록입니다.
+![alt text](image-1.png)
+![alt text](image-2.png)
+![alt text](image-3.png) 
+![alt text](image-5.png)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+### 2. 소스 빌드 및 실행 방법 메뉴얼
+node.js 와 npm을 설치하고 npm start를 터미널에 입력해서 개발 환경에서 소스를 실행하였습니다.
+백엔드 API를 사용하기 위해서는 백엔드 서버가 필요하므로, 별도로 백엔드 서버를 구동시켜 API 요청을 처리할 수 있는 환경을 구성했습니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 3. 주력으로 사용한 컴포넌트에대한 설명 및 사용 이유 기입
+주력으로 사용한 컴포넌트는, CalendarApp 컴포넌트 입니다.
+저는 캘린더가 앱에서 큰 비율로 차지한다는 생각으로 화면에 크게 위치시켰습니다.
+ant design에 있는 컴포넌트들의 디자인을 최대한 가져가고 싶었고 컴포넌트가 다소 복잡하게 느껴져서
+분리하여 재사용은 잘 하지는 못했다고 생각합니다.
+CalendarApp이라는 큰 컴포넌트를 주력으로 하여 데이터를 불러오고 가공하고,
+캘린더를 클릭했을때 사용성을 고려해서 if문으로 분기점을 나눴습니다. 
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+   
+ 

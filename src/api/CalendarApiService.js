@@ -1,30 +1,20 @@
 import { apiClient } from "./apiClient";
 
-//캘린더
-export const getCalendarByMonth = (data, userId) => {
-    return apiClient.get(`/calendar-By-Month/${data}/${userId}`)
+export const selectCalendarInfo = (type, year, month, userId) => {
+    console.log(`/calendar/select?type=${type}&year=${year}&month=${month}&userId=${userId}`);
+    return apiClient.get(`/calendar/select?type=${type}&year=${year}&month=${month}&userId=${userId}`)
 }
 
-export const getCalendarByYear = (data, userId) => {
-    return apiClient.get(`/calendar-By-year/${data}/${userId}`)
+export const createCalendar = (data) => {
+    return apiClient.post(`/calendar/create`, data
+    )
 }
 
-//생성
-export const createCalendar = (data, userId) => {
-    return apiClient.put(`/insert-calendar/${data}/${userId}`, {
-        data
-    })
+export const udateCalendarByMonth = (data) => {
+    return apiClient.put(`/calendar/update`, data
+    )
 }
 
-//수정
-export const uodateCalendarByMonth = (data, userId)=> {
-    return apiClient.patch(`/update-calendar/${data}/${userId}`, {
-        data
-    })
-}
-
-//삭제
 export const deleteCalendar = (scheduleId, userId) => {
-    return apiClient.delete(`/delete-By-Month/${scheduleId}/${userId}`)
+    return apiClient.delete(`/calendar/delete/${scheduleId}/${userId}`)
 }
- 
